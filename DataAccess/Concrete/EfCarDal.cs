@@ -11,6 +11,28 @@ namespace DataAccess.Concrete
 {
     public class EfCarDal : EfEntityRepositoryBase<Car, CarRentalContext>, ICarDal
     {
+        public List<CarDetail> FetchCarDetailByBrandId(int id)
+        {
+            using (CarRentalContext context = new CarRentalContext())
+            {
+                var carDetail = from c in context.Cars
+                                join b in context.Brands on
+                                c.BrandId equals b.Id
+                                join co in context.Colors on
+                                c.ColorId equals co.Id
+                                where b.Id == id
+                                select new CarDetail
+                                {
+                                    BrandName = b.Name,
+                                    CarName = c.Description,
+                                    ColorName = co.Name,
+                                    DailyPrice = c.DailyPrice
+                                   
+                                };
+                return carDetail.ToList();
+            }
+        }
+
         public List<Car> GetCarsByBrandId(int brandId)
         {
             using (CarRentalContext context = new CarRentalContext())

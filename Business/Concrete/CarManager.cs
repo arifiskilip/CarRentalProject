@@ -27,6 +27,11 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CarDeleted);
         }
 
+        public IDataResult<List<CarDetail>> FetchCarDetailByBrandId(int id)
+        {
+            return new SuccessDataResult<List<CarDetail>>(_carDal.FetchCarDetailByBrandId(id),Messages.CarListed);
+        }
+
         public IDataResult<List<Car>> GetAll()
         {
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(), Messages.CarListed);
